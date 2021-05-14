@@ -6,12 +6,10 @@ console.log(axios)
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-const myGitHub = "https://api.github.com/users/MahDudeGarrus";
-
-axios.get(myGitHub)
+axios.get("https://api.github.com/users/MahDudeGarrus")
   .then(res => {
-    console.log('Properly yoinked', res.data.avatar_url);
-    cardMaker(res.data)
+    console.log('Properly yoinked', res.data);
+    parentCard.appendChild(cardMaker(res.data))
   })
   .catch(err => {
     console.log('Nope.', err)
@@ -67,9 +65,7 @@ function cardMaker(res){
 
   //creating elements for html
   const card = document.createElement('div')
-
   const userImage = document.createElement('img')  
-  userImage.setAttribute('src', 'res.data.avatar_url')
   const cardInfo = document.createElement('div')
   const fullName = document.createElement('h3')
   const username = document.createElement('p')
@@ -77,7 +73,7 @@ function cardMaker(res){
   const profile = document.createElement('p')
   const followers = document.createElement('p')
   const following = document.createElement('p')
-  const bio =document.createElement('p')
+  const bio = document.createElement('p')
 
   // giving classnames to elements with classes
   card.classList.add('card')
@@ -86,14 +82,14 @@ function cardMaker(res){
   username.classList.add('username')
 
    // giving data to the elements
-  userImage.setAttribute('src', `${res.avatar_url}`)
+  userImage.src = res.avatar_url
   fullName.textContent = res.name
   username.textContent = res.login
   location.textContent = res.location
-  profile.textContent = res.html_url
-  followers.textContent = res.followers
-  following.textContent = res.following
-  bio.textContent = res.bio
+  profile.textContent = ('GitHub: ' + res.html_url)
+  followers.textContent = ('Followers: ' + res.followers)
+  following.textContent = ('Following: ' + res.following)
+  bio.textContent =('About me: ' + res.bio)
 
   // appending elements
   card.appendChild(userImage)
@@ -108,8 +104,6 @@ function cardMaker(res){
 
   return card
 }
-
-parentCard.appendChild(cardMaker())
 /*
   List of LS Instructors Github username's:
     tetondan
