@@ -1,9 +1,19 @@
+import axios from 'axios';
+
+console.log(axios)
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+axios.get("https://api.github.com/users/MahDudeGarrus")
+  .then(res => {
+    console.log('Properly yoinked', res.data);
+    parentCard.appendChild(cardMaker(res.data))
+  })
+  .catch(err => {
+    console.log('Nope.', err)
+  })
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -16,6 +26,8 @@
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
+const parentCard = document.querySelector('.cards')
+console.log(parentCard)
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -49,7 +61,49 @@ const followersArray = [];
       </div>
     </div>
 */
+function cardMaker(res){
 
+  //creating elements for html
+  const card = document.createElement('div')
+  const userImage = document.createElement('img')  
+  const cardInfo = document.createElement('div')
+  const fullName = document.createElement('h3')
+  const username = document.createElement('p')
+  const location = document.createElement('p')
+  const profile = document.createElement('p')
+  const followers = document.createElement('p')
+  const following = document.createElement('p')
+  const bio = document.createElement('p')
+
+  // giving classnames to elements with classes
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  fullName.classList.add('name')
+  username.classList.add('username')
+
+   // giving data to the elements
+  userImage.src = res.avatar_url
+  fullName.textContent = res.name
+  username.textContent = res.login
+  location.textContent = res.location
+  profile.textContent = ('GitHub: ' + res.html_url)
+  followers.textContent = ('Followers: ' + res.followers)
+  following.textContent = ('Following: ' + res.following)
+  bio.textContent =('About me: ' + res.bio)
+
+  // appending elements
+  card.appendChild(userImage)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(fullName)
+  cardInfo.appendChild(username)
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(profile)
+  cardInfo.appendChild(followers)
+  cardInfo.appendChild(following)
+  cardInfo.appendChild(bio)
+
+  return card
+}
 /*
   List of LS Instructors Github username's:
     tetondan
